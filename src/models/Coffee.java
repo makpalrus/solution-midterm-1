@@ -1,45 +1,48 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Coffee {
-    protected String name;
-    protected double price;
-    protected String size;
-    protected List<String> additions;
+public class Coffee {
+    private String name;
+    private double basePrice;
+    private String size;
+    private double sizePrice;
+    private String strength;
+    private double strengthPrice;
+    private List<String> additions;
+    private double totalPrice;
 
-    public Coffee(String name, double price, String size, List<String> additions) {
+    public Coffee(String name, double basePrice) {
         this.name = name;
-        this.price = price;
+        this.basePrice = basePrice;
+        this.totalPrice = basePrice;
+        this.additions = new ArrayList<>();
+    }
+
+    public void setSize(String size, double sizePrice) {
         this.size = size;
-        this.additions = additions;
+        this.sizePrice = sizePrice;
+        this.totalPrice += sizePrice;
     }
 
-    public String getName() {
-        return name;
+    public void setStrength(String strength, double strengthPrice) {
+        this.strength = strength;
+        this.strengthPrice = strengthPrice;
+        this.totalPrice += strengthPrice;
     }
 
-    public double getPrice() {
-        return price;
+    public void addAddition(String addition, double price) {
+        additions.add(addition);
+        this.totalPrice += price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public List<String> getAdditions() {
-        return additions;
-    }
-
-    public void setAdditions(List<String> additions) {
-        this.additions = additions;
+    public String getDescription() {
+        return name + " (" + size + ", " + strength + ") - $" + totalPrice +
+                "\nДобавки: " + (additions.isEmpty() ? "Нет" : String.join(", ", additions));
     }
 }
